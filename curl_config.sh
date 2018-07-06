@@ -183,7 +183,7 @@ configure_curl_for_macosx()
 
     local CFLAGS="-I${PREBUILT_DIR}/include"
     local CPPFLAGS=$CFLAGS
-    local LDFLAGS="-L${PREBUILT_DIR}/libs/macosx/x86_64"
+    local LDFLAGS="-L${PREBUILT_DIR}/libs/x86_64"
     local LIBS='-lssl -lcrypto -lz'
 
     rm -rf $BUILD_DIR
@@ -223,12 +223,37 @@ configure_curl_native()
     rm -rf $BUILD_DIR
     mkdir -p $BUILD_DIR
 
+    set +e
+    local OPENSSL_VERSION=$(openssl version 2>/dev/null)
+    set -e
+    local USE_BREW='n'
+    if [ "$(uname -s)" = "Darwin" ]; then
+        if [ -z "$OPENSSL_VERSION" -o -z "$(echo $$OPENSSL_VERSION | grep OpenSSL)" ]; then
+# https://mac.lytics.eu/apple-secure-transport-or-openssl-this-is-the-problem/
+# Enable brew fallback
+            OPENSSL_VERSION=$(PATH="/usr/local/opt/openssl/bin:$PATH" openssl version 2>/dev/null)
+            USE_BREW='y'
+        fi
+    fi
+    if [ -z "$OPENSSL_VERSION" ]; then
+        abort "Can't continue, 'openssl' tool not found"
+    fi
+    echo "$OPENSSL_VERSION" > "$BUILD_DIR/openssl-version.txt"
+
     local CONFIGURE_WRAPPER="$BUILD_DIR/configure.sh"
     {
         echo "#!/bin/bash"
         echo 'set -e'
         echo ''
         echo 'cd $(dirname $0)'
+        echo ''
+        if [ "$USE_BREW" = 'y' ]; then
+            echo "export CFLAGS='-I/usr/local/opt/openssl/include'"
+            echo "export CPPFLAGS='$CPPFLAGS'"
+            echo "export LDFLAGS='-L/usr/local/opt/openssl/lib'"
+            echo "export LIBS='-lssl -lcrypto -lz'"
+            echo "export DYLD_LIBRARY_PATH=/usr/local/opt/openssl/lib"
+        fi
         echo ''
         echo "exec $SRC_DIR/configure \\"
         echo '    --with-zlib \'

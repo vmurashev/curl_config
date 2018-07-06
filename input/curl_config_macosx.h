@@ -5,7 +5,7 @@
 /* #undef CURLDEBUG */
 
 /* Location of default ca bundle */
-/* #undef CURL_CA_BUNDLE */
+#define CURL_CA_BUNDLE "/etc/ssl/cert.pem"
 
 /* define "1" to use built in CA store of SSL library */
 /* #undef CURL_CA_FALLBACK */
@@ -149,7 +149,7 @@
 /* #undef HAVE_BROTLI_DECODE_H */
 
 /* Define to 1 if you have the __builtin_available function. */
-/* #undef HAVE_BUILTIN_AVAILABLE */
+#define HAVE_BUILTIN_AVAILABLE 1
 
 /* Define to 1 if you have the clock_gettime function and monotonic timer. */
 /* #undef HAVE_CLOCK_GETTIME_MONOTONIC */
@@ -182,7 +182,7 @@
 #define HAVE_DLFCN_H 1
 
 /* Define to 1 if you have the `ENGINE_cleanup' function. */
-#define HAVE_ENGINE_CLEANUP 1
+/* #undef HAVE_ENGINE_CLEANUP */
 
 /* Define to 1 if you have the `ENGINE_load_builtin_engines' function. */
 #define HAVE_ENGINE_LOAD_BUILTIN_ENGINES 1
@@ -512,7 +512,7 @@
 #define HAVE_OPENSSL_RSA_H 1
 
 /* if you have the function SRP_Calc_client_key */
-/* #undef HAVE_OPENSSL_SRP */
+#define HAVE_OPENSSL_SRP 1
 
 /* Define to 1 if you have the <openssl/ssl.h> header file. */
 #define HAVE_OPENSSL_SSL_H 1
@@ -548,7 +548,7 @@
 #define HAVE_PWD_H 1
 
 /* Define to 1 if you have the `RAND_egd' function. */
-#define HAVE_RAND_EGD 1
+/* #undef HAVE_RAND_EGD */
 
 /* Define to 1 if you have the recv function. */
 #define HAVE_RECV 1
@@ -617,7 +617,7 @@
 /* #undef HAVE_SOCKET_H */
 
 /* Define to 1 if you have the `SSLv2_client_method' function. */
-#define HAVE_SSLV2_CLIENT_METHOD 1
+/* #undef HAVE_SSLV2_CLIENT_METHOD */
 
 /* Define to 1 if you have the `SSL_get_shutdown' function. */
 #define HAVE_SSL_GET_SHUTDOWN 1
@@ -830,7 +830,7 @@
 #define NTLM_WB_FILE "/usr/bin/ntlm_auth"
 
 /* cpu-machine-OS */
-#define OS "x86_64-apple-darwin13.0.0"
+#define OS "x86_64-apple-darwin17.6.0"
 
 /* Name of package */
 #define PACKAGE "curl"
@@ -1004,7 +1004,7 @@
 /* #undef USE_THREADS_WIN32 */
 
 /* Use TLS-SRP authentication */
-/* #undef USE_TLS_SRP */
+#define USE_TLS_SRP 1
 
 /* Use Unix domain sockets */
 #define USE_UNIX_SOCKETS 1
